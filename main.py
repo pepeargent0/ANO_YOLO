@@ -40,7 +40,7 @@ def convert_labelme_to_yolo(labelme_file, yolo_file, image_file):
             f.write(f"{class_id} {x_center} {y_center} {width} {height}\n")
 
 
-labelme_dir = 'archivos_json_imagen'
+labelme_dir = 'json'
 output_dir = 'yolo'
 
 os.makedirs(output_dir, exist_ok=True)
@@ -49,7 +49,7 @@ for filename in os.listdir(labelme_dir):
     if filename.endswith('.json'):
         labelme_file = os.path.join(labelme_dir, filename)
         yolo_file = os.path.join(output_dir, filename.replace('.json', '.txt'))
-        image_file = os.path.join(labelme_dir, filename.replace('.json', '.jpg'))
+        image_file = os.path.join(labelme_dir, filename.replace('.json', '.jpeg'))
 
         if os.path.exists(image_file):
             convert_labelme_to_yolo(labelme_file, yolo_file, image_file)
@@ -57,3 +57,46 @@ for filename in os.listdir(labelme_dir):
             print(f"Convertido {filename} a {yolo_file} y copiado {image_file} a {output_dir}")
         else:
             print(f"No se encontró la imagen {image_file} para {filename}")
+
+
+
+"""
+import os
+
+# Ruta a la carpeta que contiene los archivos JSON
+labelme_dir = 'json'
+
+# Prefijo para los nombres de archivo
+prefix = '52256_daniel_ponce_'
+
+# Obtener lista de archivos en la carpeta
+files = os.listdir(labelme_dir)
+
+# Inicializar contador
+counter = 1
+
+# Renombrar cada archivo
+for filename in files:
+    # Obtener la extensión del archivo
+    _, extension = os.path.splitext(filename)
+
+    # Construir nuevo nombre de archivo
+    if counter < 10:
+        sub_fijo = '0'+str(counter)
+    else:
+        sub_fijo = counter
+    new_filename = f"{prefix}{sub_fijo}{extension}"
+
+    # Obtener rutas completas a los archivos
+    old_file = os.path.join(labelme_dir, filename)
+    new_file = os.path.join(labelme_dir, new_filename)
+
+    # Renombrar el archivo
+    os.rename(old_file, new_file)
+    print(f"Renombrado {filename} a {new_filename}")
+
+    # Incrementar contador
+    counter += 1
+
+#52256_daniel_ponce
+"""
